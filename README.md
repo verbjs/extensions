@@ -321,7 +321,7 @@ class VerbCompletionProvider implements CompletionItemProvider {
 
 ## Support
 
-- **Documentation**: [verb.sh/extensions](https://verb.sh/extensions)
+- **Documentation**: [verb.codes/extensions](https://verb.codes/extensions)
 - **VS Code Extension**: [marketplace.visualstudio.com](https://marketplace.visualstudio.com/items?itemName=verb-framework)
 - **GitHub Issues**: [github.com/verbjs/extensions](https://github.com/verbjs/extensions)
 
