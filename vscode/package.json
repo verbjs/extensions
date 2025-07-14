@@ -1,0 +1,121 @@
+{
+  "name": "@verb/extensions",
+  "displayName": "Verb Extensions",
+  "description": "VS Code extension for Verb web framework with syntax highlighting, snippets, and IntelliSense",
+  "version": "1.0.0",
+  "publisher": "Wess Cope",
+  "homepage": "https://verb.codes",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets",
+    "Other"
+  ],
+  "keywords": [
+    "verb",
+    "web framework",
+    "typescript",
+    "bun",
+    "websocket",
+    "multi-protocol"
+  ],
+  "activationEvents": [
+    "onLanguage:typescript",
+    "onLanguage:javascript",
+    "workspaceContains:**/package.json"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "verb-config",
+        "aliases": ["Verb Config", "verb"],
+        "extensions": [".verb.json", ".verb.config.js", ".verb.config.ts"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "verb-config",
+        "scopeName": "source.verb",
+        "path": "./syntaxes/verb.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "typescript",
+        "path": "./snippets/typescript.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "verb.createApp",
+        "title": "Create Verb App",
+        "category": "Verb"
+      },
+      {
+        "command": "verb.addRoute",
+        "title": "Add Route",
+        "category": "Verb"
+      },
+      {
+        "command": "verb.addWebSocket",
+        "title": "Add WebSocket Handler",
+        "category": "Verb"
+      },
+      {
+        "command": "verb.addMiddleware",
+        "title": "Add Middleware",
+        "category": "Verb"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "verb.createApp",
+          "when": "explorerResourceIsFolder",
+          "group": "verb"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Verb Framework",
+      "properties": {
+        "verb.autoImport": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically import Verb when creating new files"
+        },
+        "verb.snippetPrefix": {
+          "type": "string",
+          "default": "verb",
+          "description": "Prefix for Verb code snippets"
+        },
+        "verb.linting": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Verb-specific linting rules"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "bun run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.70.0",
+    "@types/node": "16.x",
+    "typescript": "^4.9.4",
+    "vsce": "^2.15.0"
+  },
+  "dependencies": {}
+}

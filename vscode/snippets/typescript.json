@@ -1,0 +1,211 @@
+{
+  "Verb App": {
+    "prefix": "verb-app",
+    "body": [
+      "import { Verb } from 'verb';",
+      "",
+      "const app = new Verb();",
+      "",
+      "$0",
+      "",
+      "app.listen(${1:3000}, () => {",
+      "  console.log('Server running on port ${1:3000}');",
+      "});"
+    ],
+    "description": "Create a basic Verb application"
+  },
+  "Verb GET Route": {
+    "prefix": "verb-get",
+    "body": [
+      "app.get('${1:/path}', ${2:async }(req, res) => {",
+      "  ${3:// Handle request}",
+      "  return res.json({ ${4:data: 'response'} });",
+      "});"
+    ],
+    "description": "Create a GET route handler"
+  },
+  "Verb POST Route": {
+    "prefix": "verb-post",
+    "body": [
+      "app.post('${1:/path}', async (req, res) => {",
+      "  const ${2:data} = await req.json();",
+      "  ${3:// Process data}",
+      "  return res.status(${4:201}).json({ ${5:result: data} });",
+      "});"
+    ],
+    "description": "Create a POST route handler"
+  },
+  "Verb PUT Route": {
+    "prefix": "verb-put",
+    "body": [
+      "app.put('${1:/path/:id}', async (req, res) => {",
+      "  const { ${2:id} } = req.params;",
+      "  const ${3:data} = await req.json();",
+      "  ${4:// Update resource}",
+      "  return res.json({ ${5:updated: true, id, data} });",
+      "});"
+    ],
+    "description": "Create a PUT route handler"
+  },
+  "Verb DELETE Route": {
+    "prefix": "verb-delete",
+    "body": [
+      "app.delete('${1:/path/:id}', async (req, res) => {",
+      "  const { ${2:id} } = req.params;",
+      "  ${3:// Delete resource}",
+      "  return res.status(${4:204}).send();",
+      "});"
+    ],
+    "description": "Create a DELETE route handler"
+  },
+  "Verb Middleware": {
+    "prefix": "verb-middleware",
+    "body": [
+      "const ${1:middlewareName} = (req, res, next) => {",
+      "  ${2:// Middleware logic}",
+      "  return next();",
+      "};"
+    ],
+    "description": "Create middleware function"
+  },
+  "Verb Auth Middleware": {
+    "prefix": "verb-auth",
+    "body": [
+      "const authMiddleware = (req, res, next) => {",
+      "  const token = req.headers.get('authorization');",
+      "  if (!token) {",
+      "    return res.status(401).json({ error: 'Unauthorized' });",
+      "  }",
+      "  ${1:// Verify token}",
+      "  return next();",
+      "};"
+    ],
+    "description": "Create authentication middleware"
+  },
+  "Verb WebSocket": {
+    "prefix": "verb-websocket",
+    "body": [
+      "app.websocket('${1:/ws}', {",
+      "  open: (ws) => {",
+      "    console.log('WebSocket connection opened');",
+      "    ${2:ws.subscribe('${3:channel}');}",
+      "  },",
+      "  message: (ws, data) => {",
+      "    console.log('Received:', data);",
+      "    ${4:ws.publish('${3:channel}', data);}",
+      "  },",
+      "  close: (ws) => {",
+      "    console.log('WebSocket connection closed');",
+      "  }",
+      "});"
+    ],
+    "description": "Create WebSocket handler"
+  },
+  "Verb File Upload": {
+    "prefix": "verb-upload",
+    "body": [
+      "app.post('${1:/upload}', async (req, res) => {",
+      "  const formData = await req.formData();",
+      "  const file = formData.get('${2:file}') as File;",
+      "  ",
+      "  if (!file) {",
+      "    return res.status(400).json({ error: 'No file uploaded' });",
+      "  }",
+      "  ",
+      "  await Bun.write(`${3:uploads/}\\${file.name}`, file);",
+      "  ",
+      "  return res.json({",
+      "    filename: file.name,",
+      "    size: file.size,",
+      "    type: file.type",
+      "  });",
+      "});"
+    ],
+    "description": "Create file upload handler"
+  },
+  "Verb Static Files": {
+    "prefix": "verb-static",
+    "body": [
+      "app.static('${1:/public}', '${2:./public}');"
+    ],
+    "description": "Serve static files"
+  },
+  "Verb Error Handler": {
+    "prefix": "verb-error",
+    "body": [
+      "app.use((error, req, res, next) => {",
+      "  console.error('Error:', error);",
+      "  return res.status(${1:500}).json({",
+      "    error: ${2:'Internal Server Error'}",
+      "  });",
+      "});"
+    ],
+    "description": "Create error handling middleware"
+  },
+  "Verb CORS": {
+    "prefix": "verb-cors",
+    "body": [
+      "app.use((req, res, next) => {",
+      "  res.headers.set('Access-Control-Allow-Origin', '${1:*}');",
+      "  res.headers.set('Access-Control-Allow-Methods', '${2:GET, POST, PUT, DELETE, OPTIONS}');",
+      "  res.headers.set('Access-Control-Allow-Headers', '${3:Content-Type, Authorization}');",
+      "  ",
+      "  if (req.method === 'OPTIONS') {",
+      "    return res.status(204).send();",
+      "  }",
+      "  ",
+      "  return next();",
+      "});"
+    ],
+    "description": "Add CORS middleware"
+  },
+  "Verb Route Group": {
+    "prefix": "verb-group",
+    "body": [
+      "// ${1:API} routes",
+      "app.get('${2:/api/}${3:resource}', ${4:controller}.getAll);",
+      "app.get('${2:/api/}${3:resource}/:id', ${4:controller}.getById);",
+      "app.post('${2:/api/}${3:resource}', ${4:controller}.create);",
+      "app.put('${2:/api/}${3:resource}/:id', ${4:controller}.update);",
+      "app.delete('${2:/api/}${3:resource}/:id', ${4:controller}.delete);"
+    ],
+    "description": "Create RESTful route group"
+  },
+  "Verb Controller": {
+    "prefix": "verb-controller",
+    "body": [
+      "export const ${1:resourceName}Controller = {",
+      "  getAll: async (req, res) => {",
+      "    const ${2:items} = await ${3:service}.getAll();",
+      "    return res.json(${2:items});",
+      "  },",
+      "  ",
+      "  getById: async (req, res) => {",
+      "    const { id } = req.params;",
+      "    const ${4:item} = await ${3:service}.getById(id);",
+      "    return res.json(${4:item});",
+      "  },",
+      "  ",
+      "  create: async (req, res) => {",
+      "    const data = await req.json();",
+      "    const ${4:item} = await ${3:service}.create(data);",
+      "    return res.status(201).json(${4:item});",
+      "  },",
+      "  ",
+      "  update: async (req, res) => {",
+      "    const { id } = req.params;",
+      "    const data = await req.json();",
+      "    const ${4:item} = await ${3:service}.update(id, data);",
+      "    return res.json(${4:item});",
+      "  },",
+      "  ",
+      "  delete: async (req, res) => {",
+      "    const { id } = req.params;",
+      "    await ${3:service}.delete(id);",
+      "    return res.status(204).send();",
+      "  }",
+      "};"
+    ],
+    "description": "Create a RESTful controller"
+  }
+}
