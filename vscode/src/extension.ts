@@ -62,21 +62,20 @@ async function createVerbApp() {
 
     try {
         // Create basic Verb app structure
-        const appContent = `import { Verb } from 'verb';
+        const appContent = `import { server } from 'verb';
 
-const app = new Verb();
+const app = server.http();
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   return res.json({ message: 'Hello from Verb!' });
 });
 
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
   return res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-app.listen(3000, () => {
-  console.log('Server running on http://localhost:3000');
-});
+app.listen(3000);
+console.log('Server running on http://localhost:3000');
 `;
 
         const packageJsonContent = `{
